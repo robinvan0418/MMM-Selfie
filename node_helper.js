@@ -64,8 +64,7 @@ module.exports = NodeHelper.create({
       if(!pythonStarted)
       {
         pythonStarted = true;
-        var filepath = this.python_selfie();
-		handler.reply('TEXT','Filepath is ' + filepath,{parse_mode:'Markdown'});
+        this.python_selfie();
       };
     };
     if(notification === 'SELFIE_FACEBOOK')
