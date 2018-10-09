@@ -105,7 +105,7 @@ Module.register('MMM-Selfie',
         this.config.new_status = this.config.message.substr(7);
       }
     	handler.reply('TEXT','Trying to get a selfie with message ' + this.config.new_status,{parse_mode:'Markdown'});
-    	this.sendSocketNotification('SELFIE', this.config);
+    	this.sendSocketNotification('SELFIE', this.config, handler);
  	},
  	cmd_facebook : function (command, handler)
 	{

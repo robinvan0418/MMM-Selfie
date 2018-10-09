@@ -1,7 +1,7 @@
 'use strict';
 const NodeHelper = require('node_helper');
 
-const PythonShell = require('python-shell');
+const {PythonShell} = require('python-shell');
 var pythonStarted = false
 
 module.exports = NodeHelper.create({
@@ -14,6 +14,9 @@ module.exports = NodeHelper.create({
     {  
       if (message.hasOwnProperty('status')){
       console.log("[" + self.name + "] " + message.status);
+      }
+	  else if (message.hasOwnProperty('filepath')){
+      return message.filepath;
       }
     });
 
@@ -54,14 +57,15 @@ module.exports = NodeHelper.create({
   },
   
   // Subclass socketNotificationReceived received.
-  socketNotificationReceived: function(notification, payload) {
+  socketNotificationReceived: function(notification, payload, handler) {
     if(notification === 'SELFIE')
     {
       this.config = payload
       if(!pythonStarted)
       {
         pythonStarted = true;
-        this.python_selfie();
+        var filepath = this.python_selfie();
+		handler.reply('TEXT','Filepath is ' + filepath,{parse_mode:'Markdown'});
       };
     };
     if(notification === 'SELFIE_FACEBOOK')
