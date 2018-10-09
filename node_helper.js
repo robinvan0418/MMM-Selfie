@@ -57,7 +57,7 @@ module.exports = NodeHelper.create({
   },
   
   // Subclass socketNotificationReceived received.
-  socketNotificationReceived: function(notification, payload, handler) {
+  socketNotificationReceived: function(notification, payload) {
     if(notification === 'SELFIE')
     {
       this.config = payload

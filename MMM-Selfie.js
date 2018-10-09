@@ -106,6 +106,7 @@ Module.register('MMM-Selfie',
       }
     	handler.reply('TEXT','Trying to get a selfie with message ' + this.config.new_status,{parse_mode:'Markdown'});
     	this.sendSocketNotification('SELFIE', this.config, handler);
+		handler.reply("PHOTO_PATH", "/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg", {caption:"Coolest Picture"})
  	},
  	cmd_facebook : function (command, handler)
 	{
