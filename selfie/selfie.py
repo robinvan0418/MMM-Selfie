@@ -25,8 +25,8 @@ import datetime
 import os
 import glob
 import pygame
-import facebook
-from twitter import *
+#import facebook
+#from twitter import *
 
 def to_node(type, message):
     # convert to json and print (node helper will read from stdout)
@@ -130,6 +130,7 @@ def takeSelfie():
     image = camera.capture(filename)
     camera.stop_preview()
     to_node("status", 'Selfie taken')
+	to_node("filepath", filename)
     return filename
 
 # Main Loop
