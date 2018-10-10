@@ -115,7 +115,7 @@ Module.register('MMM-Selfie',
 				handler.reply("PHOTO_PATH", "/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg", {caption:"Coolest Picture"});
 				break;
 		}
-	}
+	},
 	
  	cmd_facebook : function (command, handler)
 	{
