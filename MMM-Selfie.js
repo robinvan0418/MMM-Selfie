@@ -104,7 +104,7 @@ Module.register('MMM-Selfie',
       {
         this.config.new_status = this.config.message.substr(7);
       }
-    	handler.reply('TEXT','Trying to get a selfie with message ' + this.config.new_status,{parse_mode:'Markdown'});
+    	handler.reply('TEXT','Trying to get a selfie...');
     	this.sendSocketNotification('SELFIE', this.config, handler);
 		handler.reply("PHOTO_PATH", "/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg", {caption:"Coolest Picture"})
  	},
