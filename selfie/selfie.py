@@ -52,16 +52,15 @@ def cleanup():
   to_node("status", 'Removing file ' + "/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg")
 
 def takeSelfie():
-    pygame.init()
-    pygame.mixer.music.load(config.path_to_file + "/../resources/shutter.mp3")
-    #filename = config.path_to_file + '/selfie_' + datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + '.jpg'
+	pygame.init()
+	pygame.mixer.music.load(config.path_to_file + "/../resources/shutter.mp3")
+	#filename = config.path_to_file + '/selfie_' + datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + '.jpg'
 	filename = '/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg'
-    camera.start_preview()
-    time.sleep(3)
-    pygame.mixer.music.play()
-    camera.capture(filename)
-    camera.stop_preview()
-    
+	camera.start_preview()
+	time.sleep(3)
+	pygame.mixer.music.play()
+	camera.capture(filename)
+	camera.stop_preview()
 	to_node("status", 'Selfie taken')
 	return filename
 
