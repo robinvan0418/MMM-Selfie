@@ -65,10 +65,9 @@ Module.register('MMM-Selfie',
         this.config.new_status = this.config.message.substr(7);
       }
     	handler.reply('TEXT','Trying to get a selfie...');
-    	this.sendSocketNotification('SELFIE', this.config, function() {
+    	$.when(function() {this.sendSocketNotification('SELFIE', this.config)}).then(function() {
 			handler.reply("PHOTO_PATH", "/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg", {caption:"Coolest Selfie!"})
 		});
-		
 		
 		
  	},
