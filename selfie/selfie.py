@@ -25,8 +25,6 @@ import datetime
 import os
 import glob
 import pygame
-#import facebook
-#from twitter import *
 
 def to_node(type, message):
     # convert to json and print (node helper will read from stdout)
@@ -50,75 +48,8 @@ signal.signal(signal.SIGINT, shutdown)
 def cleanup():
   to_node("status", 'Cleaning up storage folder of old photos')
   #for fn in glob.iglob(config.path_to_file + '/selfie_' + '*.jpg'):
-  os.remove("/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg")
+  #TO DO: if file exists: os.remove("/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg")
   to_node("status", 'Removing file ' + "/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg")
-
-def postontwitter(filename):
-    cfg = {
-        "access_key"      : config.get("twitter_access_key"),
-        "access_secret"   : config.get("twitter_access_secret"),
-        "consumer_key"    : config.get("twitter_consumer_key"),
-        "consumer_secret" : config.get("twitter_consumer_secret"),
-        "new_status"      : config.get("new_status")
-    }
-
-    #-----------------------------------------------------------------------
-    # create twitter API objects
-    #-----------------------------------------------------------------------
-    twitter_upload = Twitter(domain='upload.twitter.com',
-        auth = OAuth(cfg["access_key"], cfg["access_secret"], cfg["consumer_key"], cfg["consumer_secret"]))
-
-    #-----------------------------------------------------------------------
-    # post a new status
-    # twitter API docs: https://dev.twitter.com/rest/reference/post/statuses/update
-    #-----------------------------------------------------------------------
-
-    with open(filename, "rb") as imagefile:
-        imagedata = imagefile.read()
-
-    filesize = os.path.getsize(filename)
-
-    id_img = twitter_upload.media.upload(command="INIT",total_bytes=filesize,media_type='image/jpeg')["media_id_string"]
-    twitter_upload.media.upload(command="APPEND",media_id=id_img,segment_index=0,media=imagedata)
-    twitter_upload.media.upload(command="FINALIZE",media_id=id_img)
-
-    twitter_post = Twitter(
-        auth = OAuth(cfg["access_key"], cfg["access_secret"], cfg["consumer_key"], cfg["consumer_secret"]))
-
-    results = twitter_post.statuses.update(status = cfg["new_status"], media_ids = id_img)
-
-def get_fb_api(cfg):
-  graph = facebook.GraphAPI(cfg['access_token'])
-  # Get page token to post as the page. You can skip 
-  # the following if you want to post as yourself. 
-  resp = graph.get_object('me/accounts')
-  page_access_token = None
-  for page in resp['data']:
-    if page['id'] == cfg['page_id']:
-      page_access_token = page['access_token']
-  graph = facebook.GraphAPI(page_access_token)
-  return graph
-
-def postonfb(filename):
-  # Fill in the values noted in previous steps here
-  cfg = {
-    "page_id"      : config.get("Facebook_pageid"),
-    "access_token" : config.get("Facebook_token"),
-    "new_status"   : config.get("new_status"),
-    "profile_id"   : config.get("Facebook_ProfileId")
-    }
-
-  FACEBOOK_PROFILE_ID = cfg["profile_id"]
-  api = get_fb_api(cfg)
-  msg = cfg["new_status"]
-
-  try:
-    #fb_response = api.put_wall_post('Hello from Python',profile_id = FACEBOOK_PROFILE_ID)
-    fb_response = api.put_photo(image=open(filename, 'rb'),message=msg,profile_id = FACEBOOK_PROFILE_ID)
-    print(fb_response)
-
-  except facebook.GraphAPIError as e:
-    print('Something went wrong:' + e.type + e.message)
 
 def takeSelfie():
     pygame.init()
@@ -128,12 +59,11 @@ def takeSelfie():
     camera.start_preview()
     time.sleep(3)
     pygame.mixer.music.play()
-    image = camera.capture(filename)
+    camera.capture(filename)
     camera.stop_preview()
     
 	to_node("status", 'Selfie taken')
-	#to_node("filepath", filename)
-    return filename
+	return filename
 
 # Main Loop
 cleanup()
