@@ -105,9 +105,18 @@ Module.register('MMM-Selfie',
         this.config.new_status = this.config.message.substr(7);
       }
     	handler.reply('TEXT','Trying to get a selfie...');
-    	this.sendSocketNotification('SELFIE', this.config, handler);
+    	this.sendSocketNotification('SELFIE', this.config);
 		handler.reply("PHOTO_PATH", "/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg", {caption:"Coolest Picture"})
  	},
+	
+	notificationReceived: function(notification, payload, sender) {
+		switch(notification) {
+			case "SELFIE_TAKEN":
+				handler.reply("PHOTO_PATH", "/home/pi/MagicMirror/modules/MMM-Selfie/selfie.jpg", {caption:"Coolest Picture"});
+				break;
+		}
+	}
+	
  	cmd_facebook : function (command, handler)
 	{
     	Log.info('Trying to get a selfie to Facebook');
